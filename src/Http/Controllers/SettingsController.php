@@ -1,17 +1,17 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Http\Controllers;
+namespace KraenkVisuell\NovaSettings\Http\Controllers;
 
-use Laravel\Nova\Panel;
 use Illuminate\Http\Request;
-use Laravel\Nova\ResolvesFields;
+use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
+use KraenkVisuell\NovaSettings\NovaSettings;
 use Laravel\Nova\Contracts\Resolvable;
 use Laravel\Nova\Fields\FieldCollection;
-use Illuminate\Support\Facades\Validator;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use OptimistDigital\NovaSettings\NovaSettings;
-use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
+use Laravel\Nova\Panel;
+use Laravel\Nova\ResolvesFields;
 
 class SettingsController extends Controller
 {
@@ -25,12 +25,12 @@ class SettingsController extends Controller
         $panels = $this->panelsWithDefaultLabel($label, app(NovaRequest::class));
 
         $addResolveCallback = function (&$field) {
-            if (!empty($field->attribute)) {
+            if (! empty($field->attribute)) {
                 $setting = NovaSettings::getSettingsModel()::firstOrNew(['key' => $field->attribute]);
                 $field->resolve([$field->attribute => isset($setting) ? $setting->value : '']);
             }
 
-            if (!empty($field->meta['fields'])) {
+            if (! empty($field->meta['fields'])) {
                 foreach ($field->meta['fields'] as $_field) {
                     $setting = NovaSettings::getSettingsModel()::where('key', $_field->attribute)->first();
                     $_field->resolve([$_field->attribute => isset($setting) ? $setting->value : null]);
@@ -54,9 +54,13 @@ class SettingsController extends Controller
 
         // NovaDependencyContainer support
         $fields = $fields->map(function ($field) {
-            if (!empty($field->attribute)) return $field;
-            if (!empty($field->meta['fields'])) return $field->meta['fields'];
-            return null;
+            if (! empty($field->attribute)) {
+                return $field;
+            }
+            if (! empty($field->meta['fields'])) {
+                return $field->meta['fields'];
+            }
+
         })->filter()->flatten();
 
         $rules = [];
@@ -70,19 +74,27 @@ class SettingsController extends Controller
         Validator::make($request->all(), $rules)->validate();
 
         $fields->whereInstanceOf(Resolvable::class)->each(function ($field) use ($request) {
-            if (empty($field->attribute)) return;
-            if ($field->isReadonly(app(NovaRequest::class))) return;
+            if (empty($field->attribute)) {
+                return;
+            }
+            if ($field->isReadonly(app(NovaRequest::class))) {
+                return;
+            }
             $settingsClass = NovaSettings::getSettingsModel();
 
             // For nova-translatable support
-            if (!empty($field->meta['translatable']['original_attribute'])) $field->attribute = $field->meta['translatable']['original_attribute'];
+            if (! empty($field->meta['translatable']['original_attribute'])) {
+                $field->attribute = $field->meta['translatable']['original_attribute'];
+            }
 
             $existingRow = $settingsClass::where('key', $field->attribute)->first();
 
-            $tempResource =  new \stdClass;
+            $tempResource = new \stdClass;
             $field->fill($request, $tempResource);
 
-            if (!property_exists($tempResource, $field->attribute)) return;
+            if (! property_exists($tempResource, $field->attribute)) {
+                return;
+            }
 
             if (isset($existingRow)) {
                 $existingRow->value = $tempResource->{$field->attribute};
@@ -109,6 +121,7 @@ class SettingsController extends Controller
             $existingRow->value = null;
             $existingRow->save();
         }
+
         return response('', 204);
     }
 

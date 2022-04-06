@@ -1,10 +1,10 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Tests\Feature;
+namespace KraenkVisuell\NovaSettings\Tests\Feature;
 
+use KraenkVisuell\NovaSettings\NovaSettings;
+use KraenkVisuell\NovaSettings\Tests\IntegrationTestCase;
 use Laravel\Nova\Fields\Text;
-use OptimistDigital\NovaSettings\NovaSettings;
-use OptimistDigital\NovaSettings\Tests\IntegrationTestCase;
 
 class NavigationTest extends IntegrationTestCase
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Tests\Feature;
+namespace KraenkVisuell\NovaSettings\Tests\Feature;
 
+use KraenkVisuell\NovaSettings\Models\Settings;
+use KraenkVisuell\NovaSettings\NovaSettings;
+use KraenkVisuell\NovaSettings\Tests\IntegrationTestCase;
 use Laravel\Nova\Fields\Text;
-use OptimistDigital\NovaSettings\NovaSettings;
-use OptimistDigital\NovaSettings\Models\Settings;
-use OptimistDigital\NovaSettings\Tests\IntegrationTestCase;
 
 class SettingsSaveTest extends IntegrationTestCase
 {

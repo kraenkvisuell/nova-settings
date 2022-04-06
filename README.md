@@ -44,7 +44,7 @@ public function tools()
 {
     return [
         // ...
-        new \OptimistDigital\NovaSettings\NovaSettings
+        new \KraenkVisuell\NovaSettings\NovaSettings
     ];
 }
 ```
@@ -57,7 +57,7 @@ Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `
 
 ```php
 // Using an array
-\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
+\KraenkVisuell\NovaSettings\NovaSettings::addSettingsFields([
     Text::make('Some setting', 'some_setting'),
     Number::make('A number', 'a_number'),
 ]);
@@ -65,7 +65,7 @@ Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `
 // OR
 
 // Using a callable
-\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields(function() {
+\KraenkVisuell\NovaSettings\NovaSettings::addSettingsFields(function() {
   return [
     Text::make('Some setting', 'some_setting'),
     Number::make('A number', 'a_number'),
@@ -77,7 +77,7 @@ Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `
 
 ```php
 // Using an array
-\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
+\KraenkVisuell\NovaSettings\NovaSettings::addSettingsFields([
     Panel::make('Panel Title', [
       Text::make('Some setting', 'some_setting'),
       Number::make('A number', 'a_number'),
@@ -91,7 +91,7 @@ Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `
 If you want the value of the setting to be formatted before it's returned, pass an array similar to `Eloquent`'s `$casts` property as the second parameter.
 
 ```php
-\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
+\KraenkVisuell\NovaSettings\NovaSettings::addSettingsFields([
     // ... fields
 ], [
   'some_boolean_value' => 'boolean',
@@ -106,7 +106,7 @@ If you want the value of the setting to be formatted before it's returned, pass 
 Add a settings page name as a third argument to list those settings in a custom subpage.
 
 ```php
-\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
+\KraenkVisuell\NovaSettings\NovaSettings::addSettingsFields([
     Text::make('Some setting', 'some_setting'),
     Number::make('A number', 'a_number'),
 ], [], 'Subpage');
@@ -161,7 +161,7 @@ Sets a setting value for the given key.
 The config file can be published using the following command:
 
 ```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSettings\NovaSettingsServiceProvider" --tag="config"
+php artisan vendor:publish --provider="KraenkVisuell\NovaSettings\NovaSettingsServiceProvider" --tag="config"
 ```
 
 | Name                  | Type    | Default           | Description                                                                        |
@@ -173,7 +173,7 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSettings\NovaSettings
 The migration can also be published and overwritten using:
 
 ```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSettings\NovaSettingsServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="KraenkVisuell\NovaSettings\NovaSettingsServiceProvider" --tag="migrations"
 ```
 
 ## Localization
@@ -181,7 +181,7 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSettings\NovaSettings
 The translation file(s) can be published by using the following command:
 
 ```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSettings\NovaSettingsServiceProvider" --tag="translations"
+php artisan vendor:publish --provider="KraenkVisuell\NovaSettings\NovaSettingsServiceProvider" --tag="translations"
 ```
 
 You can add your translations to `resources/lang/vendor/nova-settings/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.

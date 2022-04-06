@@ -1,68 +1,50 @@
 {
-  "name": "kraenkvisuell/nova-settings",
-  "description": "A Laravel Nova tool for editing custom settings using native Nova fields.",
-  "keywords": [
-    "laravel",
-    "nova"
-  ],
-  "license": "MIT",
-  "require": {
-    "php": ">=7.2.0",
-    "laravel/nova": "^3.0",
-    "optimistdigital/nova-translations-loader": "^3.0"
-  },
-  "require-dev": {
-    "orchestra/testbench": "^5.0|^6.0",
-    "orchestra/testbench-dusk": "^5.0|^6.0",
-    "laravel/nova-dusk-suite": "7.x-dev|8.x-dev",
-    "phpunit/phpunit": "^8.0|^9.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "OptimistDigital\\NovaSettings\\": "src/"
-    },
-    "files": [
-      "./src/helpers.php"
-    ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "OptimistDigital\\NovaSettings\\Tests\\": "tests"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "OptimistDigital\\NovaSettings\\NovaSettingsServiceProvider"
-      ]
-    }
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://nova.laravel.com"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/laravel/nova-dusk-suite"
-    }
-  ],
-  "scripts": {
-    "dusk:prepare": [
-      "./vendor/bin/dusk-updater detect --auto-update"
+    "name": "kraenkvisuell/nova-settings",
+    "description": "A Laravel Nova tool for editing custom settings using native Nova fields.",
+    "keywords": [
+        "laravel",
+        "nova"
     ],
-    "dusk:assets": [
-      "npm ci",
-      "npm run prod",
-      "./vendor/bin/testbench-dusk nova:publish"
+    "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
     ],
-    "dusk:test": [
-      "./vendor/bin/phpunit -c phpunit.dusk.xml.dist"
-    ]
-  }
+    "require": {
+        "php": "^8.0.2|^8.1",
+        "laravel/nova": "^4.0",
+        "manogi/nova-translatable": "^2.0",
+        "spatie/laravel-translatable": "^6.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0",
+        "phpunit/phpunit": "^8.0|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "KraenkVisuell\\NovaSettings\\": "src/"
+        },
+        "files": [
+            "./src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KraenkVisuell\\NovaSettings\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "KraenkVisuell\\NovaSettings\\NovaSettingsServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

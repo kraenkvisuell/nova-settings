@@ -1,12 +1,12 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Tests;
+namespace KraenkVisuell\NovaSettings\Tests;
 
-use Laravel\Nova\Nova;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Application;
+use KraenkVisuell\NovaSettings\NovaSettings;
+use Laravel\Dusk\Browser;
 use Laravel\Nova\Fields\Text;
-use OptimistDigital\NovaSettings\NovaSettings;
+use Laravel\Nova\Nova;
 
 abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
 {
@@ -45,7 +45,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
 
         tap($this->app->make('config'), function ($config) {
             $config->set('app.url', static::baseServeUrl());
-            $config->set('filesystems.disks.public.url', static::baseServeUrl() . '/storage');
+            $config->set('filesystems.disks.public.url', static::baseServeUrl().'/storage');
         });
     }
 
@@ -56,7 +56,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
      */
     protected function getBasePath()
     {
-        return realpath(__DIR__ . '/../vendor/laravel/nova-dusk-suite');
+        return realpath(__DIR__.'/../vendor/laravel/nova-dusk-suite');
     }
 
     /**
@@ -72,7 +72,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
             'Fideloper\Proxy\TrustedProxyServiceProvider',
             'Laravel\Nova\NovaCoreServiceProvider',
             'Carbon\Laravel\ServiceProvider',
-            'OptimistDigital\NovaSettings\NovaSettingsServiceProvider',
+            'KraenkVisuell\NovaSettings\NovaSettingsServiceProvider',
         ];
     }
 
@@ -217,7 +217,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
     {
         $browsers->each(function (Browser $browser, $key) {
             $name = str_replace('\\', '_', get_class($this)).'_'.$this->getName(false);
-            $browser->screenshot('failure-' . $this->getName() . '-' . $key);
+            $browser->screenshot('failure-'.$this->getName().'-'.$key);
         });
     }
 }

@@ -1,17 +1,17 @@
 <?php
 
-namespace OptimistDigital\NovaSettings;
+namespace KraenkVisuell\NovaSettings;
 
+use Illuminate\Support\Str;
+use KraenkVisuell\NovaSettings\Models\Settings;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
-use Illuminate\Support\Str;
-use OptimistDigital\NovaSettings\Models\Settings;
 
 class NovaSettings extends Tool
 {
     public function boot()
     {
-        Nova::script('nova-settings', __DIR__ . '/../dist/js/tool.js');
+        Nova::script('nova-settings', __DIR__.'/../dist/js/tool.js');
 
         Nova::provideToScript([
             'novaSettings' => [
@@ -67,7 +67,10 @@ class NovaSettings extends Tool
 
     public static function getFields($path = null)
     {
-        if (!$path) return static::getStore()->getRawFields();
+        if (! $path) {
+            return static::getStore()->getRawFields();
+        }
+
         return static::getStore()->getFields($path);
     }
 

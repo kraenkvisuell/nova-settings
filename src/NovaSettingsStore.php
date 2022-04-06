@@ -1,6 +1,6 @@
 <?php
 
-namespace OptimistDigital\NovaSettings;
+namespace KraenkVisuell\NovaSettings;
 
 use Illuminate\Support\Str;
 
@@ -14,7 +14,9 @@ class NovaSettingsStore
     {
         $path = Str::lower(Str::slug($path));
 
-        if (is_callable($fields)) $fields = [$fields];
+        if (is_callable($fields)) {
+            $fields = [$fields];
+        }
         $this->fields[$path] = array_merge($this->fields[$path] ?? [], $fields ?? []);
 
         $this->casts = array_merge($this->casts, $casts ?? []);
@@ -25,6 +27,7 @@ class NovaSettingsStore
     public function addCasts($casts = [])
     {
         $this->casts = array_merge($this->casts, $casts);
+
         return $this;
     }
 
@@ -41,8 +44,11 @@ class NovaSettingsStore
 
         $fields = [];
         foreach ($rawFields as $rawField) {
-            if (is_array($rawField)) $fields = array_merge($fields, $rawField);
-            else $fields[] = $rawField;
+            if (is_array($rawField)) {
+                $fields = array_merge($fields, $rawField);
+            } else {
+                $fields[] = $rawField;
+            }
         }
 
         return $fields;
@@ -55,32 +61,39 @@ class NovaSettingsStore
 
     public function getSetting($settingKey, $default = null)
     {
-        if (isset($this->cache[$settingKey])) return $this->cache[$settingKey];
-        $this->cache[$settingKey] = NovaSettings::getSettingsModel()::getValueForKey($settingKey) ?? $default;
-        return $this->cache[$settingKey];
+        if (isset($this->cache[$settingKey.app()->getLocale()])) {
+            return $this->cache[$settingKey.app()->getLocale()];
+        }
+        $this->cache[$settingKey.app()->getLocale()] = NovaSettings::getSettingsModel()::getValueForKey($settingKey) ?? $default;
+
+        return $this->cache[$settingKey.app()->getLocale()];
     }
 
     public function getSettings(array $settingKeys = null, array $defaults = [])
     {
         $settingsModel = NovaSettings::getSettingsModel();
 
-        if (!empty($settingKeys)) {
-            $hasMissingKeys = !empty(array_diff($settingKeys, array_keys($this->cache)));
+        if (! empty($settingKeys)) {
+            $hasMissingKeys = ! empty(array_diff($settingKeys, array_keys($this->cache)));
 
-            if (!$hasMissingKeys) return collect($settingKeys)->mapWithKeys(function ($settingKey) {
-                return [$settingKey => $this->cache[$settingKey]];
-            })->toArray();
+            if (! $hasMissingKeys) {
+                return collect($settingKeys)->mapWithKeys(function ($settingKey) {
+                    return [$settingKey => $this->cache[$settingKey]];
+                })->toArray();
+            }
 
             $settings = $settingsModel::find($settingKeys)->pluck('value', 'key');
 
             return collect($settingKeys)->flatMap(function ($settingKey) use ($settings, $defaults) {
                 $settingValue = $settings[$settingKey] ?? null;
 
-                if (!empty($settingValue)) {
+                if (! empty($settingValue)) {
                     $this->cache[$settingKey] = $settingValue;
+
                     return [$settingKey => $settingValue];
                 } else {
                     $defaultValue = $defaults[$settingKey] ?? null;
+
                     return [$settingKey => $defaultValue];
                 }
             })->toArray();
@@ -88,6 +101,7 @@ class NovaSettingsStore
 
         return $settingsModel::all()->map(function ($setting) {
             $this->cache[$setting->key] = $setting->value;
+
             return $setting;
         })->pluck('value', 'key')->toArray();
     }
@@ -98,6 +112,7 @@ class NovaSettingsStore
         $setting->value = $value;
         $setting->save();
         unset($this->cache[$settingKey]);
+
         return $setting;
     }
 

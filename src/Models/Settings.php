@@ -1,18 +1,24 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Models;
+namespace KraenkVisuell\NovaSettings\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use OptimistDigital\NovaSettings\NovaSettings;
 use Illuminate\Support\Collection as BaseCollection;
+use KraenkVisuell\NovaSettings\NovaSettings;
+use Spatie\Translatable\HasTranslations;
 
 class Settings extends Model
 {
+    use HasTranslations;
+
     protected $primaryKey = 'key';
     public $incrementing = false;
     public $timestamps = false;
     public $fillable = ['key', 'value'];
 
+    public $translatable = [
+        'value',
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -28,7 +34,7 @@ class Settings extends Model
     public function getValueAttribute($value)
     {
         $originalCasts = $this->casts;
-        $this->casts =  NovaSettings::getCasts();
+        $this->casts = NovaSettings::getCasts();
 
         if ($this->hasCast($this->key)) {
             $value = $this->castAttribute($this->key, $value);
@@ -42,6 +48,7 @@ class Settings extends Model
     public static function getValueForKey($key)
     {
         $setting = static::where('key', $key)->get()->first();
+
         return isset($setting) ? $setting->value : null;
     }
 }

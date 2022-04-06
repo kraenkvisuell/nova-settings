@@ -1,9 +1,9 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Tests\Feature;
+namespace KraenkVisuell\NovaSettings\Tests\Feature;
 
-use OptimistDigital\NovaSettings\Models\Settings;
-use OptimistDigital\NovaSettings\Tests\IntegrationTestCase;
+use KraenkVisuell\NovaSettings\Models\Settings;
+use KraenkVisuell\NovaSettings\Tests\IntegrationTestCase;
 
 class SettingsHelpersTest extends IntegrationTestCase
 {
