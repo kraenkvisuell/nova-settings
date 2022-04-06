@@ -2,6 +2,7 @@
 
 namespace KraenkVisuell\NovaSettings;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use KraenkVisuell\NovaSettings\Models\Settings;
 use Laravel\Nova\Nova;
@@ -112,5 +113,10 @@ class NovaSettings extends Tool
     protected static function getStore(): NovaSettingsStore
     {
         return app()->make(NovaSettingsStore::class);
+    }
+
+    public function menu(Request $request)
+    {
+        //
     }
 }
